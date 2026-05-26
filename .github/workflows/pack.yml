@@ -1,0 +1,26 @@
+name: Pack vLLM Image
+on: [workflow_dispatch] # 允许手动点击触发
+
+jobs:
+  download-and-save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Free Disk Space # 清理空间确保装得下大镜像
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          
+      - name: Pull Image
+        run: |
+          docker pull vllm/vllm-openai:v0.21.0-x86_64-cu129-ubuntu2404
+          
+      - name: Save Image to Tar
+        run: |
+          docker save -o vllm-openai.tar vllm/vllm-openai:v0.21.0-x86_64-cu129-ubuntu2404
+          split -b 2G vllm-openai.tar vllm-part- # 超过2G限制，切片成2G一个小包
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vllm-image-shards
+          path: vllm-part-*
