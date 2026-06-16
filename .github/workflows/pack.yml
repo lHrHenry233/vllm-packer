@@ -16,7 +16,7 @@ jobs:
           
       - name: Save Image to Tar
         run: |
-          docker save -o vllm-openai.tar vllm/vllm-openai:v0.21.0-x86_64-cu129-ubuntu2404
+          docker save -o vllm-openai.tar vllm/vllm-openai:v0.23.0-cu129-ubuntu2404
           split -b 2G vllm-openai.tar vllm-part- # 超过2G限制，切片成2G一个小包
           
       - name: Upload Artifact
