@@ -12,7 +12,7 @@ jobs:
           
       - name: Pull Image
         run: |
-          docker pull vllm/vllm-openai:v0.21.0-x86_64-cu129-ubuntu2404
+          docker pull vllm/vllm-openai:v0.23.0-cu129-ubuntu2404
           
       - name: Save Image to Tar
         run: |
